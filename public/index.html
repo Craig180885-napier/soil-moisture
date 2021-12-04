@@ -7,45 +7,22 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Document</title>
+    <title>Document</title>  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="" />
   </head>
   <body>
-    <script>
-      if ("geolocation" in navigator) {
-        console.log("geolocation available");
-        navigator.geolocation.getCurrentPosition((async position => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('latitude').textContent = lat;
-            document.getElementById('longitude').textContent = lon;
+    <canvas id="chart" width="1000" height="400"></canvas>
+    <script src="../lineGraph.js" ></script>
+    <div class="topnav">
+      <a class="active" href="#home">Home</a>
+      <a href="#generator">Code Generator</a>   
+    </div>
 
-            const data = {lat, lon};
-            const options = {
-                method: 'POST', 
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            };
-            // fetch('/api', options).then(response => {
-                const response = await fetch('/api', options);
-                const json = await response.json();
-                console.log(json);
-            }));
-        
-      } else {
-        console.log("geolocation unavailable");
-      }
-    </script>
-    <h1>Data Selfie App</h1>
-    <p>latitude: <span id="latitude"></span>&deg;<br>
-    <p>longitude: <span id="longitude"></span>&deg;
-    </p>
     <a href link="http://localhost:3000/generator.html">Code Generator</a>
-    <p>Hello!</p>
+  
     <script src="" async defer></script>
   </body>
 </html>
