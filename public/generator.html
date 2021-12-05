@@ -9,11 +9,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
-    <body>
-        <h1> Code Generator App</h1>
+    <script src="../generator.js"></script>
+    <body>        
         <div class="topnav">
-        <a class="active" href="#generator">Home</a>
-        <a href="#Home">Home</a>
+        <a class="active" href="http://localhost:3000">Home</a>
+        <h1> Code Generator App</h1>
+        <h2> Please select your crop</h2>
         </div>
         <button onclick="getSoilMoisture(0)">
         Avocado
@@ -73,22 +74,23 @@
             // Now we'll take some readings...<br>
             moisture_analog = analogRead(moisture_pin); // read capacitive sensor<br>
             moisture_percentage = (100 - ( (moisture_analog/4095.00) * 100 ) );<br><br><br>
-            if(moisture_percentage <= soilDry)<br>
-            {<br>
-            digitalWrite(boardLed,HIGH);<br>
-            delay(2000);<br>
-            Particle.publish("soil-is-dry", String(dryMessage) + moisture_percentage ,PRIVATE);<br><br>
-            for(pos = 0; pos < 90; pos += 1)  // goes from 0 degrees to 90 degrees<br>
-            {                                  // in steps of 1 degree<br>
-            myservo.write(pos);              // tell servo to go to position in variable 'pos'<br>
-            delay(5);                       // waits 15ms for the servo to reach the position<br>
-            }<br><br>
-            delay(3000);<br><br>
+            for(pos = 0; pos < 45; pos += 1)<br>
+              if(moisture_percentage <= soilDry)<br>
+              {<br>
+                digitalWrite(boardLed,HIGH);<br>
+                  delay(2000);<br>
+                    Particle.publish("soil-is-dry", String(dryMessage) + moisture_percentage ,PRIVATE);<br><br>
+                        for(pos = 0; pos < 90; pos += 1)  // goes from 0 degrees to 90 degrees<br>
+                        {                                  // in steps of 1 degree<br>
+                        myservo.write(pos);              // tell servo to go to position in variable 'pos'<br>
+                        delay(5);                       // waits 15ms for the servo to reach the position<br>
+                        }<br><br>
+                 delay(3000);<br><br>
             for(pos = 90; pos>=1; pos-=1)     // goes from 90 degrees to 0 degrees<br>
-            {<br>
-            myservo.write(pos);              // tell servo to go to position in variable 'pos'<br>
-            delay(5);                       // waits 15ms for the servo to reach the position<br>
-            }<br>
+               {<br>
+                  myservo.write(pos);              // tell servo to go to position in variable 'pos'<br>
+                  delay(5);                       // waits 15ms for the servo to reach the position<br>
+               }<br>
             }<br><br>
             // Send a publish to your devices...<br>
             Particle.publish("soil-moisture", String(moisture_percentage),PRIVATE);<br>
