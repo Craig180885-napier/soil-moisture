@@ -59,7 +59,12 @@
             delay(200);<br><br>
             // Subscribe to the integration response event<br>
             Particle.subscribe("hook-response/soil-moisture", myHandler, MY_DEVICES);<br><br>
-            }<br><br>
+            // Sets the starting position of the Servo <br>
+            for(pos = 0; pos < 135; pos += 1) // goes from 0 degrees to 90 degrees in steps of 1 degree<br>
+                {                                   <br>
+                      myservo.write(pos);              // tell servo to go to position in variable 'pos' <br>
+                      delay(5);                       // waits 15ms for the servo to reach the position <br>
+                }}<br><br>
             void myHandler(const char *event, const char *data) {<br>
             // Handle the integration response<br>
             }<br><br>
@@ -74,19 +79,20 @@
             // Now we'll take some readings...<br>
             moisture_analog = analogRead(moisture_pin); // read capacitive sensor<br>
             moisture_percentage = (100 - ( (moisture_analog/4095.00) * 100 ) );<br><br><br>
-            for(pos = 0; pos < 45; pos += 1)<br>
+            
+
               if(moisture_percentage <= soilDry)<br>
               {<br>
                 digitalWrite(boardLed,HIGH);<br>
                   delay(2000);<br>
                     Particle.publish("soil-is-dry", String(dryMessage) + moisture_percentage ,PRIVATE);<br><br>
-                        for(pos = 0; pos < 90; pos += 1)  // goes from 0 degrees to 90 degrees<br>
-                        {                                  // in steps of 1 degree<br>
+                        for(pos = 135; pos > 45; pos -= 1)  // goes from 0 degrees to 90 degrees in steps of 1 degree<br>
+                        {                                  <br>
                         myservo.write(pos);              // tell servo to go to position in variable 'pos'<br>
                         delay(5);                       // waits 15ms for the servo to reach the position<br>
                         }<br><br>
                  delay(3000);<br><br>
-            for(pos = 90; pos>=1; pos-=1)     // goes from 90 degrees to 0 degrees<br>
+            for(pos = 45; pos <= 135; pos+=1)     // goes from 90 degrees to 0 degrees<br>
                {<br>
                   myservo.write(pos);              // tell servo to go to position in variable 'pos'<br>
                   delay(5);                       // waits 15ms for the servo to reach the position<br>
